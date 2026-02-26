@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack | History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            color: var(--accent-blue);
+        }
+
+        .lvl-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav-bar">
+        <div class="logo" style="font-weight: 800; font-size: 1.5rem; color: var(--accent-blue);">EcoTrack AI</div>
+        <div class="nav-links">
+            <a href="/" style="color: white; text-decoration: none; margin-left: 2rem;">Home</a>
+            <a href="/dashboard" style="color: white; text-decoration: none; margin-left: 2rem;">Dashboard</a>
+        </div>
+    </nav>
+
+    <main class="card glass" style="margin: 2rem;">
+        <h2>Pollution History Log</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Date/Time</th>
+                    <th>Source</th>
+                    <th>Accuracy</th>
+                    <th>AQI</th>
+                    <th>Category</th>
+                    <th>PM2.5</th>
+                    <th>PM10</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record.location }}</td>
+                    <td>{{ record.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td><span style="color: var(--text-muted);">{{ record.location_source }}</span></td>
+                    <td>{{ "%.1f"|format(record.accuracy) if record.accuracy else '--' }}m</td>
+                    <td style="font-weight: 800;">{{ record.aqi }}</td>
+                    <td><span class="lvl-badge" style="background: rgba(255,255,255,0.1);">{{ record.category }}</span>
+                    </td>
+                    <td>{{ record.pm25 }}</td>
+                    <td>{{ record.pm10 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+
+</html>

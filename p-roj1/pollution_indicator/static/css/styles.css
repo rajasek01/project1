@@ -1,0 +1,107 @@
+:root {
+    --primary-bg: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --accent-blue: #38bdf8;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --good: #10b981;
+    --moderate: #f59e0b;
+    --unhealthy-sens: #f97316;
+    --unhealthy: #ef4444;
+    --v-unhealthy: #a855f7;
+    --hazardous: #881337;
+}
+
+body {
+    background-color: var(--primary-bg);
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.glass {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+}
+
+.hero-section {
+    padding: 4rem 1rem;
+    text-align: center;
+    background: radial-gradient(circle at top right, #1e293b, #0f172a);
+}
+
+.nav-bar {
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.input-group {
+    max-width: 500px;
+    margin: 2rem auto;
+    position: relative;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    font-size: 1rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.card {
+    padding: 1.5rem;
+}
+
+.aqi-indicator {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 1rem 0;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-label { color: var(--text-muted); }
+.stat-value { font-weight: 600; }

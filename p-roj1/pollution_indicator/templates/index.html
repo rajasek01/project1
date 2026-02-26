@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack | AI Pollution Monitor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="nav-bar">
+        <div class="logo" style="font-weight: 800; font-size: 1.5rem; color: var(--accent-blue);">EcoTrack AI</div>
+        <div class="nav-links">
+            <a href="/dashboard" style="color: white; text-decoration: none; margin-left: 2rem;">Dashboard</a>
+            <a href="/history" style="color: white; text-decoration: none; margin-left: 2rem;">History</a>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Real-time Satellite <br><span
+                style="color: var(--accent-blue);">Pollution Intelligence</span></h1>
+        <p style="color: var(--text-muted); font-size: 1.2rem; max-width: 600px; margin: 0 auto;">Monitor AQI, PM2.5,
+            and greenhouse gases globally with precision AI analysis of satellite environmental data.</p>
+
+        <div class="input-group">
+            <input type="text" id="locationInput" placeholder="Enter City (e.g. Delhi, London, Tokyo)">
+            <button class="btn-primary" onclick="searchLocation()"
+                style="position: absolute; right: 8px; top: 8px;">Analyze</button>
+        </div>
+        <div style="margin-top: 1rem;">
+            <button class="btn-primary" onclick="detectLocation()"
+                style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">
+                📍 Detect My Location
+            </button>
+        </div>
+        <div style="margin-top: 1rem;">
+            <p style="color: var(--text-muted);">Quick Search:
+                <a href="#" onclick="quickSearch('Delhi')" style="color: var(--accent-blue);">Delhi</a>,
+                <a href="#" onclick="quickSearch('London')" style="color: var(--accent-blue);">London</a>,
+                <a href="#" onclick="quickSearch('New York')" style="color: var(--accent-blue);">New York</a>
+            </p>
+        </div>
+    </header>
+
+    <main class="dashboard-grid">
+        <div class="card glass">
+            <h3>Satellite Data Integration</h3>
+            <p>Fetching real-time data from NASA, OpenWeatherMap, and Copernicus Atmosphere Monitoring Service.</p>
+        </div>
+        <div class="card glass">
+            <h3>AI Classification</h3>
+            <p>Intelligent pollution level categorization using standardized AQI thresholds and predictive logic.</p>
+        </div>
+        <div class="card glass">
+            <h3>Interactive Visualization</h3>
+            <p>Detailed heatmaps and pollutant trend graphs for comprehensive environmental analysis.</p>
+        </div>
+    </main>
+
+    <script>
+        function searchLocation() {
+            const city = document.getElementById('locationInput').value;
+            if (!city) return alert('Please enter a city');
+
+            sendLocationData({ city: city, source: 'Manual' });
+        }
+
+        function detectLocation() {
+            if (!navigator.geolocation) {
+                return alert('Geolocation is not supported by your browser');
+            }
+
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            };
+
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const { latitude, longitude, accuracy } = pos.coords;
+                    console.log(`Detected Location: ${latitude}, ${longitude} (Accuracy: ${accuracy}m)`);
+                    sendLocationData({
+                        lat: latitude,
+                        lon: longitude,
+                        accuracy: accuracy,
+                        source: 'GPS'
+                    });
+                },
+                (err) => {
+                    alert(`Error detecting location: ${err.message}`);
+                },
+                options
+            );
+        }
+
+        function sendLocationData(payload) {
+            const body = new URLSearchParams(payload).toString();
+
+            fetch('/fetch', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: body
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        window.location.href = '/dashboard';
+                    } else {
+                        let msg = data.message;
+                        if (data.suggestions) {
+                            msg += '\n\nSuggestions:\n• ' + data.suggestions.join('\n• ');
+                        }
+                        alert(msg);
+                    }
+                })
+                .catch(err => alert('Network error: ' + err.message));
+        }
+
+        function quickSearch(city) {
+            document.getElementById('locationInput').value = city;
+            searchLocation();
+        }
+    </script>
+</body>
+
+</html>

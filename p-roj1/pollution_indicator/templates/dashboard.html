@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack | Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <nav class="nav-bar">
+        <div class="logo" style="font-weight: 800; font-size: 1.5rem; color: var(--accent-blue);">EcoTrack AI</div>
+        <div class="nav-links">
+            <a href="/" style="color: white; text-decoration: none; margin-left: 2rem;">Home</a>
+            <a href="/history" style="color: white; text-decoration: none; margin-left: 2rem;">History</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-grid">
+        <!-- Main Map -->
+        <div class="card glass" style="grid-column: span 2;">
+            <h3>Global Pollution Heatmap</h3>
+            <div id="map"></div>
+        </div>
+
+        <!-- AQI Gauge/Indicator -->
+        <div class="card glass">
+            <h3>Live AQI Status</h3>
+            <div id="aqiValue" class="aqi-indicator">--</div>
+            <div id="aqiCategory" style="font-size: 1.2rem; font-weight: 600;">Loading...</div>
+            <p id="locationLabel" style="color: var(--text-muted); margin-top: 0.5rem;"></p>
+        </div>
+
+        <!-- Pollutant Breakdown Chart -->
+        <div class="card glass" style="grid-column: span 2;">
+            <h3>Pollutant Concentration (µg/m³)</h3>
+            <canvas id="pollutantChart"></canvas>
+        </div>
+
+        <!-- Detailed Stats -->
+        <div class="card glass">
+            <h3>Detailed Parameters</h3>
+            <div id="statsList">
+                <div class="stat-item"><span class="stat-label">PM2.5</span><span class="stat-value"
+                        id="val-pm25">--</span></div>
+                <div class="stat-item"><span class="stat-label">PM10</span><span class="stat-value"
+                        id="val-pm10">--</span></div>
+                <div class="stat-item"><span class="stat-label">NO₂</span><span class="stat-value"
+                        id="val-no2">--</span></div>
+                <div class="stat-item"><span class="stat-label">CO</span><span class="stat-value" id="val-co">--</span>
+                </div>
+                <div class="stat-item"><span class="stat-label">O₃</span><span class="stat-value" id="val-o3">--</span>
+                </div>
+                <div class="stat-item"><span class="stat-label">SO₂</span><span class="stat-value"
+                        id="val-so2">--</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
